@@ -17,6 +17,7 @@
   --ok:      #34d399;
   --danger:  #f87171;
   --warn:    #fbbf24;
+  --teal:    #2dd4bf;
   --text:    #eeeef5;
   --muted:   #7e82a0;
   --r:       14px;
@@ -37,44 +38,20 @@ nav{
 .logo em{font-style:normal;color:var(--accent)}
 .nav-cta{display:flex;gap:.5rem}
 
-/* ── HERO ── */
-.hero{
-  max-width:680px;margin:0 auto;
-  padding:5rem 1.5rem 3rem;text-align:center;
-}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:.4rem;
-  background:rgba(124,106,255,.15);border:1px solid rgba(124,106,255,.3);
-  border-radius:999px;padding:.3rem .85rem;
-  font-size:.78rem;font-weight:600;color:#b4a8ff;
-  margin-bottom:1.5rem;
-}
-.hero h1{
-  font-size:clamp(2rem,6vw,3.2rem);font-weight:900;
-  letter-spacing:-.05em;line-height:1.1;margin-bottom:1rem;
-}
-.hero h1 span{
-  background:linear-gradient(135deg,var(--accent),#a78bfa);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.hero p{
-  font-size:1.1rem;color:var(--muted);line-height:1.7;
-  max-width:480px;margin:0 auto 2.5rem;
-}
-.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
-
 /* ── BOUTONS ── */
 .btn{
   display:inline-flex;align-items:center;gap:.45rem;
   padding:.65rem 1.25rem;border-radius:var(--r-sm);
   border:none;font-size:.92rem;font-weight:600;cursor:pointer;
-  transition:all .15s;white-space:nowrap;
+  transition:all .15s;white-space:nowrap;text-decoration:none;
 }
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 24px rgba(124,106,255,.35)}
 .btn-primary:hover{background:var(--accent-h);box-shadow:0 0 32px rgba(124,106,255,.5)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
 .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.3)}
+.btn-teal{background:rgba(45,212,191,.15);color:var(--teal);border:1px solid rgba(45,212,191,.3)}
+.btn-teal:hover{background:rgba(45,212,191,.22)}
 .btn-lg{padding:.85rem 2rem;font-size:1rem}
 .btn-full{width:100%;justify-content:center}
 .btn-sm{padding:.4rem .8rem;font-size:.82rem}
@@ -85,63 +62,162 @@ nav{
 }
 .btn-google:hover{background:var(--s1);border-color:rgba(255,255,255,.25)}
 
+/* ── HERO ── */
+.hero{
+  max-width:700px;margin:0 auto;
+  padding:5.5rem 1.5rem 3.5rem;text-align:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.3);
+  border-radius:999px;padding:.3rem .9rem;
+  font-size:.78rem;font-weight:600;color:var(--teal);
+  margin-bottom:1.5rem;
+}
+.hero h1{
+  font-size:clamp(2.2rem,7vw,3.6rem);font-weight:900;
+  letter-spacing:-.05em;line-height:1.08;margin-bottom:1.1rem;
+}
+.hero h1 .grad{
+  background:linear-gradient(135deg,var(--accent),#a78bfa 60%,#2dd4bf);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-desc{
+  font-size:1.08rem;color:var(--muted);line-height:1.75;
+  max-width:500px;margin:0 auto 1rem;
+}
+.hero-free-note{
+  display:inline-block;
+  background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.2);
+  border-radius:8px;padding:.45rem 1rem;
+  font-size:.82rem;color:var(--teal);margin-bottom:2rem;
+}
+.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
 /* ── FEATURES ── */
+.features-wrap{max-width:900px;margin:0 auto 5rem;padding:0 1.5rem}
+.section-header{text-align:center;margin-bottom:2rem}
+.section-header h2{font-size:1.7rem;font-weight:800;letter-spacing:-.04em;margin-bottom:.4rem}
+.section-header p{color:var(--muted);font-size:.92rem}
 .features{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:1rem;max-width:860px;margin:3rem auto;padding:0 1.5rem;
+  gap:1rem;
 }
 .feat{
   background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
-  padding:1.4rem;
+  padding:1.4rem;transition:border-color .2s;
 }
+.feat:hover{border-color:var(--border2)}
 .feat-icon{font-size:1.8rem;margin-bottom:.75rem}
 .feat h3{font-size:.95rem;font-weight:700;margin-bottom:.35rem}
 .feat p{font-size:.83rem;color:var(--muted);line-height:1.55}
 
-/* ── PRICING ── */
-.pricing-section{max-width:860px;margin:0 auto 4rem;padding:0 1.5rem}
-.pricing-section h2{text-align:center;font-size:1.6rem;font-weight:800;letter-spacing:-.04em;margin-bottom:.5rem}
-.pricing-section .sub{text-align:center;color:var(--muted);font-size:.9rem;margin-bottom:2rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
-.plan{
+/* ── COMPARE ── */
+.compare-wrap{max-width:860px;margin:0 auto 5rem;padding:0 1.5rem}
+.compare-table{
   background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
-  padding:1.5rem;text-align:center;position:relative;
-  transition:border-color .15s,transform .15s;
+  overflow:hidden;
 }
-.plan:hover{border-color:var(--border2);transform:translateY(-2px)}
-.plan.popular{border-color:var(--accent);background:rgba(124,106,255,.06)}
-.plan-badge{
-  position:absolute;top:-11px;left:50%;transform:translateX(-50%);
-  background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;
-  padding:.2rem .65rem;border-radius:999px;white-space:nowrap;
+.compare-head{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--s2);border-bottom:1px solid var(--border2);
 }
-.plan-icon{font-size:1.6rem;margin-bottom:.6rem}
-.plan-name{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
-.plan-price{font-size:2.2rem;font-weight:900;letter-spacing:-.05em;margin-bottom:.2rem}
-.plan-price sup{font-size:1rem;font-weight:700;vertical-align:super}
-.plan-unit{font-size:.78rem;color:var(--muted);margin-bottom:1.1rem}
-.plan-features{list-style:none;margin-bottom:1.4rem;text-align:left}
-.plan-features li{font-size:.83rem;padding:.3rem 0;border-bottom:1px solid var(--border);color:var(--muted)}
-.plan-features li:last-child{border-bottom:none}
-.plan-features li::before{content:'✓ ';color:var(--ok);font-weight:700}
+.compare-col-header{
+  padding:1rem;text-align:center;font-weight:700;font-size:.88rem;
+}
+.compare-col-header.free-col{color:var(--muted)}
+.compare-col-header.paid-col{color:var(--accent);background:rgba(124,106,255,.08)}
+.compare-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.compare-row:last-child{border-bottom:none}
+.compare-cell{
+  padding:.7rem 1rem;font-size:.84rem;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.compare-cell.label{justify-content:flex-start;color:var(--muted);font-weight:500}
+.compare-cell.free-col{color:var(--muted)}
+.compare-cell.paid-col{background:rgba(124,106,255,.04)}
+.check{color:var(--ok);font-weight:700}
+.cross{color:var(--danger)}
+.num{color:var(--accent);font-weight:700}
 
 /* ── HOW IT WORKS ── */
-.how{max-width:680px;margin:0 auto 4rem;padding:0 1.5rem;text-align:center}
-.how h2{font-size:1.6rem;font-weight:800;letter-spacing:-.04em;margin-bottom:.5rem}
-.how .sub{color:var(--muted);font-size:.9rem;margin-bottom:2rem}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem}
-.step{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem}
-.step-num{font-size:1.4rem;font-weight:900;color:var(--accent);margin-bottom:.5rem}
+.how{max-width:700px;margin:0 auto 5rem;padding:0 1.5rem;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:2rem}
+.step{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;text-align:left}
+.step-num{
+  width:32px;height:32px;border-radius:50%;background:rgba(124,106,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;font-weight:900;color:var(--accent);margin-bottom:.65rem;
+}
 .step h4{font-size:.88rem;font-weight:700;margin-bottom:.3rem}
 .step p{font-size:.78rem;color:var(--muted);line-height:1.5}
 
+/* ── PRICING ── */
+.pricing-section{max-width:920px;margin:0 auto 5rem;padding:0 1.5rem}
+.pricing-grid{
+  display:grid;
+  grid-template-columns:1.1fr repeat(3,1fr);
+  gap:.85rem;align-items:start;
+}
+/* Plan libre */
+.plan{
+  background:var(--s1);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.5rem;position:relative;
+  transition:border-color .15s,transform .15s;
+}
+.plan:hover{border-color:var(--border2);transform:translateY(-2px)}
+.plan.popular{
+  border-color:var(--accent);
+  background:linear-gradient(160deg,rgba(124,106,255,.08),rgba(124,106,255,.03));
+}
+.plan.free-plan{
+  border-color:rgba(45,212,191,.25);
+  background:rgba(45,212,191,.04);
+}
+.plan-badge{
+  position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  background:var(--accent);color:#fff;font-size:.68rem;font-weight:700;
+  padding:.2rem .7rem;border-radius:999px;white-space:nowrap;letter-spacing:.04em;
+}
+.plan-icon{font-size:1.5rem;margin-bottom:.5rem}
+.plan-name{font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.4rem}
+.plan-price{font-size:2.4rem;font-weight:900;letter-spacing:-.05em;line-height:1;margin-bottom:.15rem}
+.plan-price sup{font-size:1rem;font-weight:700;vertical-align:super}
+.plan-unit{font-size:.76rem;color:var(--muted);margin-bottom:1rem;min-height:1.2em}
+.plan-ppunit{font-size:.72rem;color:var(--ok);margin-bottom:1rem;font-weight:600}
+.plan-features{list-style:none;margin-bottom:1.3rem;text-align:left}
+.plan-features li{
+  font-size:.82rem;padding:.32rem 0;
+  border-bottom:1px solid var(--border);color:var(--muted);
+  display:flex;align-items:center;gap:.4rem;
+}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li .ok{color:var(--ok);flex-shrink:0}
+.plan-features li .no{color:var(--danger);flex-shrink:0}
+
+/* ── CTA SECTION ── */
+.cta-band{
+  background:linear-gradient(135deg,rgba(124,106,255,.12),rgba(45,212,191,.06));
+  border:1px solid rgba(124,106,255,.2);border-radius:var(--r);
+  padding:3rem 1.5rem;text-align:center;
+  max-width:640px;margin:0 auto 5rem;
+}
+.cta-band h2{font-size:1.6rem;font-weight:800;letter-spacing:-.04em;margin-bottom:.6rem}
+.cta-band p{color:var(--muted);font-size:.9rem;margin-bottom:1.8rem;line-height:1.65}
+
 /* ── FOOTER ── */
-footer{border-top:1px solid var(--border);padding:1.5rem;text-align:center;color:var(--muted);font-size:.8rem}
+footer{border-top:1px solid var(--border);padding:1.5rem 1.5rem;text-align:center;color:var(--muted);font-size:.8rem}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--text)}
 
 /* ── AUTH MODAL ── */
 #auth-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
-  z-index:500;backdrop-filter:blur(4px);
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);
+  z-index:500;backdrop-filter:blur(5px);
   align-items:center;justify-content:center;
 }
 #auth-overlay.open{display:flex}
@@ -150,7 +226,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem;text-align:center;color
   border-radius:var(--r);padding:2rem;width:90%;max-width:380px;
 }
 #auth-box h2{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
-#auth-box .sub{margin-bottom:1.5rem;font-size:.85rem}
+#auth-box .sub{margin-bottom:1.5rem;font-size:.85rem;color:var(--muted)}
 .auth-tabs{display:flex;background:var(--s2);border-radius:var(--r-sm);padding:.2rem;gap:.2rem;margin-bottom:1.25rem}
 .auth-tab{flex:1;text-align:center;padding:.45rem;border-radius:6px;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--muted);transition:all .15s}
 .auth-tab.active{background:var(--accent);color:#fff}
@@ -173,11 +249,7 @@ input:focus{border-color:var(--accent)}
   z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;
 }
 #loading.show{display:flex}
-.spinner{
-  width:36px;height:36px;border:3px solid var(--border2);
-  border-top-color:var(--accent);border-radius:50%;
-  animation:spin .7s linear infinite;
-}
+.spinner{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── TOAST ── */
@@ -186,15 +258,16 @@ input:focus{border-color:var(--accent)}
   transform:translateX(-50%) translateY(90px);
   background:var(--s2);border:1px solid var(--border2);
   border-radius:var(--r-sm);padding:.6rem 1.1rem;
-  font-size:.85rem;transition:transform .22s;
-  z-index:999;pointer-events:none;
+  font-size:.85rem;transition:transform .22s;z-index:999;pointer-events:none;
 }
 #toast.show{transform:translateX(-50%) translateY(0)}
 
-@media(max-width:480px){
-  .hero{padding:3rem 1rem 2rem}
-  .hero h1{font-size:2rem}
+@media(max-width:700px){
+  .hero{padding:3.5rem 1rem 2.5rem}
+  .hero h1{font-size:2.2rem}
   .hero-btns{flex-direction:column;align-items:center}
+  .pricing-grid{grid-template-columns:1fr}
+  .compare-head,.compare-row{grid-template-columns:1.2fr 1fr 1fr}
 }
 </style>
 </head>
@@ -205,15 +278,18 @@ input:focus{border-color:var(--accent)}
   <div class="logo">Play<em>itizy</em></div>
   <div class="nav-cta">
     <button class="btn btn-ghost btn-sm" onclick="openAuth('login')">Connexion</button>
-    <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Commencer</button>
+    <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">Essai gratuit</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🎲 Comptage de scores nouvelle génération</div>
-  <h1>Jouez.<br><span>Comptez.</span><br>Gagnez.</h1>
-  <p>L'app de comptage de points pour tous vos jeux de société. Yams, UNO, Scrabble, Tarot… Classement en temps réel, stats, historique.</p>
+  <div class="hero-badge">🎁 5 parties offertes à l'inscription</div>
+  <h1>Comptez vos points.<br><span class="grad">Vivez le jeu.</span></h1>
+  <p class="hero-desc">L'app de scores pour tous vos jeux de société. Yams, UNO, Scrabble, Tarot… Classement en temps réel, stats avancées, historique.</p>
+  <div class="hero-free-note">
+    ✓ Sans carte bancaire · ✓ 5 parties gratuites · ✓ Jusqu'à 8 joueurs
+  </div>
   <div class="hero-btns">
     <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">🎮 Jouer gratuitement</button>
     <a href="#pricing" class="btn btn-ghost btn-lg">Voir les tarifs</a>
@@ -221,132 +297,243 @@ input:focus{border-color:var(--accent)}
 </section>
 
 <!-- FEATURES -->
-<div class="features">
-  <div class="feat">
-    <div class="feat-icon">⚡</div>
-    <h3>Rapide à lancer</h3>
-    <p>Crée une partie en 10 secondes. Nom du jeu, joueurs, c'est parti.</p>
+<div class="features-wrap">
+  <div class="section-header">
+    <h2>Tout ce qu'il faut pour jouer</h2>
+    <p>Simple à utiliser, puissant pour les joueurs sérieux</p>
   </div>
-  <div class="feat">
-    <div class="feat-icon">📊</div>
-    <h3>Stats en direct</h3>
-    <p>Classement mis à jour à chaque manche. Leader visible instantanément.</p>
+  <div class="features">
+    <div class="feat">
+      <div class="feat-icon">⚡</div>
+      <h3>Rapide à lancer</h3>
+      <p>Crée une partie en 10 secondes. Nom du jeu, joueurs, c'est parti. L'app mémorise tes joueurs habituels.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📊</div>
+      <h3>Stats en direct</h3>
+      <p>Classement mis à jour à chaque manche. Leader visible instantanément. Graphe d'évolution des scores.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🏆</div>
+      <h3>Historique complet</h3>
+      <p>Toutes tes parties sauvegardées. Statistiques avancées : meilleure manche, régularité, temps en tête.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">↩️</div>
+      <h3>Reprends ta partie</h3>
+      <p>Interrompu ? Rouvre une partie à tout moment pour continuer là où tu t'es arrêté.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📤</div>
+      <h3>Partage tes victoires</h3>
+      <p>Génère une carte résumé de la partie et partage-la sur les réseaux sociaux en un tap.</p>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🎯</div>
+      <h3>Tous les jeux</h3>
+      <p>Plus grand ou plus petit score gagne. Fonctionne pour cartes, dés, lettres, fléchettes et bien plus.</p>
+    </div>
   </div>
-  <div class="feat">
-    <div class="feat-icon">🏆</div>
-    <h3>Historique complet</h3>
-    <p>Toutes vos parties sauvegardées. Retrouvez vos victoires et défaites.</p>
+</div>
+
+<!-- COMPARE FREE VS PAID -->
+<div class="compare-wrap">
+  <div class="section-header">
+    <h2>Gratuit vs Payant</h2>
+    <p>5 parties gratuites pour découvrir, puis accès complet à partir de 0,99€</p>
   </div>
-  <div class="feat">
-    <div class="feat-icon">🎯</div>
-    <h3>Tous les jeux</h3>
-    <p>Fonctionne pour tout jeu par manches : cartes, dés, lettres, fléchettes…</p>
+  <div class="compare-table">
+    <div class="compare-head">
+      <div class="compare-col-header" style="text-align:left;padding-left:1.2rem">Fonctionnalité</div>
+      <div class="compare-col-header free-col">🆓 Gratuit<br><span style="font-size:.72rem;font-weight:400">5 parties</span></div>
+      <div class="compare-col-header paid-col">💜 Payant<br><span style="font-size:.72rem;font-weight:400">à partir de 0,99€</span></div>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-cell label">Comptage des scores</div>
+      <div class="compare-cell free-col"><span class="check">✓</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Jusqu'à 8 joueurs</div>
+      <div class="compare-cell free-col"><span class="check">✓</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Historique des parties</div>
+      <div class="compare-cell free-col"><span class="check">✓</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Classement en temps réel</div>
+      <div class="compare-cell free-col"><span class="check">✓</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Statistiques avancées</div>
+      <div class="compare-cell free-col"><span class="cross">✗</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Graphe d'évolution</div>
+      <div class="compare-cell free-col"><span class="cross">✗</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Réouverture de partie</div>
+      <div class="compare-cell free-col"><span class="cross">✗</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Partage réseaux sociaux</div>
+      <div class="compare-cell free-col"><span class="cross">✗</span></div>
+      <div class="compare-cell paid-col"><span class="check">✓</span></div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Nombre de parties</div>
+      <div class="compare-cell free-col"><span class="num">5</span></div>
+      <div class="compare-cell paid-col"><span class="num">illimité*</span></div>
+    </div>
   </div>
+  <p style="font-size:.75rem;color:var(--muted);margin-top:.6rem;text-align:center">* selon le pack acheté</p>
 </div>
 
 <!-- HOW IT WORKS -->
 <section class="how">
-  <h2>Comment ça marche</h2>
-  <p class="sub">3 étapes et vous jouez</p>
+  <div class="section-header">
+    <h2>Comment ça marche</h2>
+    <p>Prêt à jouer en moins d'une minute</p>
+  </div>
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
-      <h4>Créez la partie</h4>
-      <p>Choisissez le nom du jeu et si le plus grand ou le plus petit score gagne.</p>
+      <h4>Crée la partie</h4>
+      <p>Choisis le nom du jeu et si le plus grand ou le plus petit score gagne.</p>
     </div>
     <div class="step">
       <div class="step-num">2</div>
-      <h4>Ajoutez les joueurs</h4>
-      <p>Saisissez les pseudos. L'app mémorise vos joueurs habituels.</p>
+      <h4>Ajoute les joueurs</h4>
+      <p>Saisis les pseudos. L'app mémorise tes joueurs habituels pour la prochaine fois.</p>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <h4>Saisissez les scores</h4>
-      <p>Manche après manche. Le classement se met à jour automatiquement.</p>
+      <h4>Saisis les scores</h4>
+      <p>Manche après manche. Appuie sur Entrée pour passer à la manche suivante automatiquement.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Analyse & partage</h4>
+      <p>Consulte les stats, génère ta carte de victoire et partage sur les réseaux.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
-  <h2>Tarifs simples</h2>
-  <p class="sub">Commencez gratuitement, payez à l'usage</p>
+  <div class="section-header">
+    <h2>Tarifs simples</h2>
+    <p>Payez à l'usage — aucun abonnement</p>
+  </div>
   <div class="pricing-grid">
 
-    <div class="plan">
+    <!-- FREE -->
+    <div class="plan free-plan">
       <div class="plan-icon">🆓</div>
       <div class="plan-name">Gratuit</div>
       <div class="plan-price">0<sup>€</sup></div>
       <div class="plan-unit">pour toujours</div>
       <ul class="plan-features">
-        <li>1 partie d'essai</li>
-        <li>Comptage des scores</li>
-        <li>Jusqu'à 8 joueurs</li>
+        <li><span class="ok">✓</span> 5 parties offertes</li>
+        <li><span class="ok">✓</span> Comptage des scores</li>
+        <li><span class="ok">✓</span> Jusqu'à 8 joueurs</li>
+        <li><span class="ok">✓</span> Historique basique</li>
+        <li><span class="no">✗</span> Stats avancées</li>
+        <li><span class="no">✗</span> Réouverture de partie</li>
+        <li><span class="no">✗</span> Partage réseaux</li>
       </ul>
-      <button class="btn btn-ghost btn-full" onclick="openAuth('signup')">Commencer</button>
+      <button class="btn btn-teal btn-full" onclick="openAuth('signup')">Commencer gratuitement</button>
     </div>
 
+    <!-- 1 PARTIE -->
+    <div class="plan">
+      <div class="plan-icon">🎯</div>
+      <div class="plan-name">À l'unité</div>
+      <div class="plan-price">0<sup>€</sup><span style="font-size:1.4rem">,99</span></div>
+      <div class="plan-unit">1 partie</div>
+      <div class="plan-ppunit">&nbsp;</div>
+      <ul class="plan-features">
+        <li><span class="ok">✓</span> 1 partie complète</li>
+        <li><span class="ok">✓</span> Stats avancées</li>
+        <li><span class="ok">✓</span> Réouverture possible</li>
+        <li><span class="ok">✓</span> Partage réseaux</li>
+      </ul>
+      <a href="https://buy.stripe.com/eVq9ALgNifma2Jf549bQY04" class="btn btn-ghost btn-full" target="_blank">Acheter</a>
+    </div>
+
+    <!-- 10 PARTIES -->
     <div class="plan popular">
-      <div class="plan-badge">⭐ Populaire</div>
+      <div class="plan-badge">⭐ Meilleur choix</div>
       <div class="plan-icon">🎮</div>
       <div class="plan-name">Pack 10</div>
-      <div class="plan-price">5<sup>€</sup></div>
-      <div class="plan-unit">10 parties · 0,50€/partie</div>
+      <div class="plan-price">4<sup>€</sup><span style="font-size:1.4rem">,99</span></div>
+      <div class="plan-unit">10 parties</div>
+      <div class="plan-ppunit">0,50€ / partie</div>
       <ul class="plan-features">
-        <li>10 parties complètes</li>
-        <li>Stats en cours de partie</li>
-        <li>Historique & profil</li>
-        <li>Graphe d'évolution</li>
+        <li><span class="ok">✓</span> 10 parties complètes</li>
+        <li><span class="ok">✓</span> Stats avancées</li>
+        <li><span class="ok">✓</span> Réouverture possible</li>
+        <li><span class="ok">✓</span> Partage réseaux</li>
       </ul>
       <a href="https://buy.stripe.com/bJefZ9aoUei683z9kpbQY05" class="btn btn-primary btn-full" target="_blank">Acheter</a>
     </div>
 
+    <!-- 50 PARTIES -->
     <div class="plan">
       <div class="plan-icon">🏆</div>
       <div class="plan-name">Pack 50</div>
-      <div class="plan-price">15<sup>€</sup></div>
-      <div class="plan-unit">50 parties · 0,30€/partie</div>
+      <div class="plan-price">14<sup>€</sup><span style="font-size:1.4rem">,99</span></div>
+      <div class="plan-unit">50 parties</div>
+      <div class="plan-ppunit">0,30€ / partie</div>
       <ul class="plan-features">
-        <li>50 parties complètes</li>
-        <li>Stats en cours de partie</li>
-        <li>Historique & profil</li>
-        <li>Graphe d'évolution</li>
+        <li><span class="ok">✓</span> 50 parties complètes</li>
+        <li><span class="ok">✓</span> Stats avancées</li>
+        <li><span class="ok">✓</span> Réouverture possible</li>
+        <li><span class="ok">✓</span> Partage réseaux</li>
       </ul>
       <a href="https://buy.stripe.com/00weV59kQ8XM1FbaotbQY06" class="btn btn-ghost btn-full" target="_blank">Acheter</a>
-    </div>
-
-    <div class="plan">
-      <div class="plan-icon">🎯</div>
-      <div class="plan-name">À l'unité</div>
-      <div class="plan-price">1<sup>€</sup></div>
-      <div class="plan-unit">1 partie</div>
-      <ul class="plan-features">
-        <li>1 partie complète</li>
-        <li>Stats en cours de partie</li>
-        <li>Historique & profil</li>
-      </ul>
-      <a href="https://buy.stripe.com/eVq9ALgNifma2Jf549bQY04" class="btn btn-ghost btn-full" target="_blank">Acheter</a>
     </div>
 
   </div>
 </section>
 
+<!-- CTA BAND -->
+<div style="padding:0 1.5rem 2rem">
+  <div class="cta-band">
+    <div style="font-size:2.4rem;margin-bottom:.6rem">🎲</div>
+    <h2>Prêt à jouer ?</h2>
+    <p>Rejoins des milliers de joueurs qui utilisent Playitizy pour leurs soirées de jeux. 5 parties gratuites, sans carte bancaire.</p>
+    <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary btn-lg" onclick="openAuth('signup')">Commencer gratuitement</button>
+      <button class="btn btn-ghost btn-lg" onclick="openAuth('login')">Se connecter</button>
+    </div>
+  </div>
+</div>
+
 <footer>
-  © 2025 Playitizy · Fait avec 🎲 · <a href="mailto:contact@playitizi.fr" style="color:var(--muted)">Contact</a>
+  © 2025 Playitizy · Fait avec 🎲 · <a href="mailto:contact@playitizi.fr">Contact</a>
 </footer>
 
 <!-- AUTH MODAL -->
 <div id="auth-overlay">
   <div id="auth-box">
     <h2>Bienvenue 🎲</h2>
-    <p class="sub">Créez un compte ou connectez-vous pour jouer</p>
+    <p class="sub">Créez un compte et obtenez 5 parties gratuites</p>
 
     <div class="auth-tabs">
       <div class="auth-tab active" id="tab-signup" onclick="switchTab('signup')">Inscription</div>
       <div class="auth-tab" id="tab-login" onclick="switchTab('login')">Connexion</div>
     </div>
 
-    <!-- Google -->
     <button class="btn btn-google btn-full" onclick="loginGoogle()" style="margin-bottom:.75rem">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Continuer avec Google
@@ -384,12 +571,8 @@ input:focus{border-color:var(--accent)}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import {
   getDatabase, ref, get, set
@@ -410,7 +593,6 @@ const auth     = getAuth(app);
 const db       = getDatabase(app);
 const provider = new GoogleAuthProvider();
 
-// ── Auth state ──────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     showLoading(true);
@@ -419,69 +601,51 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// ── Ensure user profile in DB ───────────────────────────
 async function ensureUserProfile(user) {
   const r = ref(db, `users/${user.uid}`);
   const snap = await get(r);
   if (!snap.exists()) {
     await set(r, {
-      email:          user.email,
-      displayName:    user.displayName || user.email.split('@')[0],
-      credits:        1,           // 1 partie gratuite
-      totalPlayed:    0,
-      totalPurchased: 1,
-      freeUsed:       false,
-      isAdmin:        false,
-      createdAt:      Date.now(),
+      email:         user.email,
+      displayName:   user.displayName || user.email.split('@')[0],
+      credits:       0,          // Parties achetées
+      freeUsedCount: 0,          // Parties gratuites utilisées (max 5)
+      totalPlayed:   0,
+      totalPurchased:0,
+      isAdmin:       false,
+      createdAt:     Date.now(),
     });
   }
 }
 
-// ── Google login ─────────────────────────────────────────
 window.loginGoogle = async () => {
-  setError('');
-  showLoading(true);
-  try {
-    await signInWithPopup(auth, provider);
-    // onAuthStateChanged prend le relais
-  } catch(e) {
-    showLoading(false);
-    setError(friendlyError(e.code));
-  }
+  setError('');showLoading(true);
+  try { await signInWithPopup(auth, provider); }
+  catch(e) { showLoading(false); setError(friendlyError(e.code)); }
 };
 
-// ── Email login / signup ─────────────────────────────────
 window.submitAuth = async () => {
   const email = document.getElementById('auth-email').value.trim();
   const pwd   = document.getElementById('auth-pwd').value;
   if (!email || !pwd) return setError('Remplis tous les champs');
   if (pwd.length < 6) return setError('Mot de passe : 6 caractères minimum');
-
-  setError('');
-  showLoading(true);
+  setError('');showLoading(true);
   try {
-    if (window._authMode === 'signup') {
-      await createUserWithEmailAndPassword(auth, email, pwd);
-    } else {
-      await signInWithEmailAndPassword(auth, email, pwd);
-    }
-  } catch(e) {
-    showLoading(false);
-    setError(friendlyError(e.code));
-  }
+    if (window._authMode === 'signup') await createUserWithEmailAndPassword(auth, email, pwd);
+    else await signInWithEmailAndPassword(auth, email, pwd);
+  } catch(e) { showLoading(false); setError(friendlyError(e.code)); }
 };
 
 function friendlyError(code) {
-  const map = {
-    'auth/email-already-in-use':    'Cet email est déjà utilisé.',
-    'auth/user-not-found':          'Aucun compte avec cet email.',
-    'auth/wrong-password':          'Mot de passe incorrect.',
-    'auth/invalid-email':           'Email invalide.',
-    'auth/weak-password':           'Mot de passe trop faible.',
-    'auth/popup-closed-by-user':    'Connexion annulée.',
-    'auth/invalid-credential':      'Email ou mot de passe incorrect.',
-  };
-  return map[code] || 'Une erreur est survenue. Réessaie.';
+  return {
+    'auth/email-already-in-use': 'Cet email est déjà utilisé.',
+    'auth/user-not-found':       'Aucun compte avec cet email.',
+    'auth/wrong-password':       'Mot de passe incorrect.',
+    'auth/invalid-email':        'Email invalide.',
+    'auth/weak-password':        'Mot de passe trop faible.',
+    'auth/popup-closed-by-user': 'Connexion annulée.',
+    'auth/invalid-credential':   'Email ou mot de passe incorrect.',
+  }[code] || 'Une erreur est survenue. Réessaie.';
 }
 
 function setError(msg) { document.getElementById('auth-error').textContent = msg; }
@@ -492,10 +656,8 @@ function showLoading(v) { document.getElementById('loading').classList.toggle('s
 let _toastT;
 function toast(msg) {
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(_toastT);
-  _toastT = setTimeout(() => el.classList.remove('show'), 2600);
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_toastT); _toastT = setTimeout(() => el.classList.remove('show'), 2600);
 }
 
 window._authMode = 'signup';
@@ -515,9 +677,10 @@ function switchTab(mode) {
   document.getElementById('auth-submit-btn').textContent =
     mode === 'signup' ? 'Créer mon compte' : 'Se connecter';
   document.getElementById('auth-error').textContent = '';
+  document.getElementById('auth-box').querySelector('.sub').textContent =
+    mode === 'signup' ? 'Créez un compte et obtenez 5 parties gratuites' : 'Content de te revoir 🎲';
 }
 
-// Fermer en cliquant hors du modal
 document.getElementById('auth-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeAuth();
 });
