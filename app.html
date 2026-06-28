@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playitizi — App</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
+<style>
+:root {
+  --bg:      #0e0f14;
+  --s1:      #16181f;
+  --s2:      #1e2130;
+  --s3:      #252840;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --accent:  #7c6aff;
+  --accent-h:#6355dd;
+  --ok:      #34d399;
+  --danger:  #f87171;
+  --warn:    #fbbf24;
+  --text:    #eeeef5;
+  --muted:   #7e82a0;
+  --r:       14px;
+  --r-sm:    8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;font-size:15px}
+
+/* ── NAV ── */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem 1.25rem;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:rgba(14,15,20,.95);
+  backdrop-filter:blur(8px);z-index:200;
+}
+.logo{font-size:1.1rem;font-weight:800;letter-spacing:-.04em}
+.logo em{font-style:normal;color:var(--accent)}
+.nav-right{display:flex;gap:.4rem;align-items:center}
+.credits-pill{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(124,106,255,.15);border:1px solid rgba(124,106,255,.25);
+  border-radius:999px;padding:.25rem .7rem;
+  font-size:.78rem;font-weight:700;color:#b4a8ff;cursor:default;
+}
+
+/* ── SCREENS ── */
+.screen{display:none;padding:1.25rem;max-width:780px;margin:0 auto}
+.screen.active{display:block}
+
+/* ── TYPO ── */
+h1{font-size:1.5rem;font-weight:800;letter-spacing:-.04em;line-height:1.15}
+h2{font-size:1rem;font-weight:700;margin-bottom:.85rem}
+.eyebrow{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.3rem}
+.sub{color:var(--muted);font-size:.87rem;margin-top:.2rem;margin-bottom:1.3rem}
+
+/* ── CARDS ── */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem}
+.card+.card{margin-top:.8rem}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.55rem 1rem;border-radius:var(--r-sm);
+  border:none;font-size:.88rem;font-weight:600;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid rgba(248,113,113,.25)}
+.btn-danger:hover{background:rgba(248,113,113,.08)}
+.btn-sm{padding:.35rem .7rem;font-size:.8rem}
+.btn-full{width:100%;justify-content:center}
+.btn:disabled{opacity:.4;pointer-events:none}
+
+/* ── FIELDS ── */
+.field{margin-bottom:.85rem}
+label.lbl{font-size:.78rem;color:var(--muted);display:block;margin-bottom:.28rem}
+input[type=text],input[type=number]{
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:var(--r-sm);color:var(--text);
+  padding:.55rem .85rem;font-size:.9rem;width:100%;outline:none;
+  transition:border-color .15s;
+}
+input:focus{border-color:var(--accent)}
+
+/* ── TOGGLE HIGH/LOW ── */
+.win-toggle{display:flex;background:var(--s2);border-radius:var(--r-sm);padding:.22rem;gap:.22rem;margin-bottom:.85rem}
+.win-opt{
+  flex:1;text-align:center;padding:.55rem .5rem;border-radius:6px;
+  cursor:pointer;font-size:.85rem;font-weight:600;color:var(--muted);
+  transition:all .15s;user-select:none;line-height:1.3;
+}
+.win-opt.active-high{background:linear-gradient(135deg,#34d399,#059669);color:#fff}
+.win-opt.active-low{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:.2rem;padding:.17rem .52rem;border-radius:999px;font-size:.72rem;font-weight:600}
+.b-purple{background:rgba(124,106,255,.18);color:#b4a8ff}
+.b-green{background:rgba(52,211,153,.15);color:var(--ok)}
+.b-red{background:rgba(248,113,113,.15);color:var(--danger)}
+.b-amber{background:rgba(251,191,36,.15);color:var(--warn)}
+.b-muted{background:var(--s2);color:var(--muted)}
+
+/* ── CHIPS joueurs ── */
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;min-height:30px;margin-bottom:.8rem}
+.chip{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:var(--s2);border:1px solid var(--border2);
+  border-radius:999px;padding:.25rem .65rem .25rem .4rem;
+  font-size:.82rem;font-weight:500;
+}
+.av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;flex-shrink:0}
+.chip-x{cursor:pointer;color:var(--muted);font-size:.75rem;margin-left:.1rem;transition:color .1s}
+.chip-x:hover{color:var(--danger)}
+.add-row{display:flex;gap:.5rem}
+.add-row input{flex:1}
+
+/* ── SCORE TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table.st{width:100%;border-collapse:collapse;font-size:.86rem}
+table.st th{
+  padding:.5rem .65rem;text-align:center;
+  color:var(--muted);font-weight:600;font-size:.73rem;
+  text-transform:uppercase;letter-spacing:.05em;
+  border-bottom:1px solid var(--border);white-space:nowrap;
+  background:var(--s1);
+}
+table.st th.left{text-align:left}
+table.st td{padding:.42rem .55rem;text-align:center;border-bottom:1px solid var(--border)}
+table.st td.left{text-align:left;color:var(--muted);font-size:.78rem}
+table.st tbody tr:hover td{background:rgba(255,255,255,.018)}
+table.st tfoot td{
+  font-weight:800;background:rgba(124,106,255,.07);
+  font-size:.93rem;border-top:2px solid var(--border2);
+  border-bottom:none;padding:.6rem .55rem;
+}
+table.st tfoot td.win-cell{color:var(--ok)}
+table.st tfoot td.lose-cell{color:var(--muted)}
+.sc-inp{
+  background:transparent;border:1px solid transparent;
+  border-radius:6px;color:var(--text);
+  padding:.25rem .3rem;font-size:.86rem;text-align:center;
+  width:62px;transition:border-color .12s,background .12s;
+}
+.sc-inp:focus{background:var(--s3);border-color:var(--accent);outline:none}
+.sc-inp.neg{color:var(--danger)}
+.sc-inp.pos{color:var(--ok)}
+.del-btn{
+  background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:.72rem;padding:.12rem .28rem;border-radius:4px;transition:color .1s,background .1s;
+}
+.del-btn:hover{color:var(--danger);background:rgba(248,113,113,.1)}
+
+/* ── RANK ROWS ── */
+.rank-row{display:flex;align-items:center;gap:.8rem;padding:.7rem 0;border-bottom:1px solid var(--border)}
+.rank-row:last-child{border-bottom:none}
+.rank-pos{width:28px;text-align:center;font-size:1rem;font-weight:800;color:var(--muted)}
+.rank-name{flex:1;font-weight:600}
+.rank-sub{font-size:.75rem;color:var(--muted);margin-top:.08rem}
+.rank-score{font-size:1rem;font-weight:800}
+
+/* ── HISTORY ── */
+.hist-item{
+  background:var(--s2);border-radius:var(--r-sm);padding:.8rem;
+  margin-bottom:.5rem;border-left:3px solid transparent;
+}
+.hist-item.win{border-left-color:var(--ok)}
+.hist-item.loss{border-left-color:var(--danger)}
+.hist-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.25rem}
+
+/* ── STAT GRID ── */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1rem}
+.stat-box{background:var(--s2);border-radius:var(--r-sm);padding:.8rem;text-align:center}
+.stat-val{font-size:1.5rem;font-weight:800;letter-spacing:-.03em}
+.stat-lbl{font-size:.7rem;color:var(--muted);margin-top:.12rem}
+
+/* ── PAYWALL ── */
+.paywall{
+  background:linear-gradient(135deg,rgba(124,106,255,.12),rgba(167,139,250,.06));
+  border:1px solid rgba(124,106,255,.3);border-radius:var(--r);
+  padding:1.75rem;text-align:center;
+}
+.paywall h2{font-size:1.15rem;margin-bottom:.4rem}
+.paywall p{color:var(--muted);font-size:.88rem;margin-bottom:1.4rem;line-height:1.6}
+.paywall-plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.65rem;margin-bottom:1.2rem}
+.pw-plan{
+  background:var(--s2);border:1px solid var(--border2);border-radius:var(--r-sm);
+  padding:1rem .85rem;text-align:center;cursor:pointer;
+  transition:border-color .15s,background .15s;
+  text-decoration:none;color:var(--text);display:block;
+}
+.pw-plan:hover{border-color:var(--accent);background:rgba(124,106,255,.08)}
+.pw-plan.featured{border-color:var(--accent);background:rgba(124,106,255,.1)}
+.pw-plan-price{font-size:1.5rem;font-weight:900;margin:.3rem 0 .15rem}
+.pw-plan-name{font-size:.75rem;color:var(--muted)}
+.pw-plan-unit{font-size:.7rem;color:var(--ok);margin-top:.2rem}
+
+/* ── MODAL ── */
+#modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);
+  z-index:500;backdrop-filter:blur(4px);align-items:center;justify-content:center;
+}
+#modal-overlay.open{display:flex}
+#modal-box{
+  background:var(--s1);border:1px solid var(--border2);
+  border-radius:var(--r);padding:1.5rem;width:90%;max-width:380px;
+}
+#modal-box h2{margin-bottom:.6rem}
+#modal-box p{color:var(--muted);font-size:.87rem;margin-bottom:1.2rem}
+.modal-btns{display:flex;gap:.5rem;justify-content:flex-end}
+
+/* ── LOADING ── */
+#loading{
+  display:none;position:fixed;inset:0;background:var(--bg);
+  z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;
+}
+#loading.show{display:flex}
+.spinner{width:34px;height:34px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:1.5rem;left:50%;
+  transform:translateX(-50%) translateY(90px);
+  background:var(--s3);border:1px solid var(--border2);
+  border-radius:var(--r-sm);padding:.55rem 1rem;font-size:.84rem;
+  transition:transform .22s;z-index:999;pointer-events:none;
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── UTILS ── */
+.flex{display:flex}.gap-2{gap:.5rem}.gap-3{gap:.75rem}
+.items-center{align-items:center}.justify-between{justify-content:space-between}
+.mt1{margin-top:.5rem}.mt2{margin-top:1rem}.mb1{margin-bottom:.5rem}.mb2{margin-bottom:1rem}
+.text-muted{color:var(--muted);font-size:.84rem}
+.hidden{display:none!important}
+.big-av{width:44px;height:44px;border-radius:50%;font-size:1.1rem;display:flex;align-items:center;justify-content:center;font-weight:800}
+.c0{background:rgba(124,106,255,.22);color:#b4a8ff}
+.c1{background:rgba(52,211,153,.18);color:var(--ok)}
+.c2{background:rgba(251,191,36,.18);color:var(--warn)}
+.c3{background:rgba(248,113,113,.18);color:var(--danger)}
+.c4{background:rgba(45,212,191,.18);color:#2dd4bf}
+.c5{background:rgba(251,146,60,.18);color:#fb923c}
+.c6{background:rgba(167,139,250,.18);color:#a78bfa}
+.c7{background:rgba(129,140,248,.18);color:#818cf8}
+
+@media(max-width:480px){h1{font-size:1.25rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Play<em>itizi</em></div>
+  <div class="nav-right">
+    <div class="credits-pill" id="nav-credits" title="Parties restantes">🎮 —</div>
+    <button class="btn btn-ghost btn-sm" onclick="go('home')" title="Accueil">🏠</button>
+    <button class="btn btn-ghost btn-sm" onclick="go('profile')" title="Profil">👤</button>
+    <button class="btn btn-ghost btn-sm" onclick="signOutUser()" title="Déconnexion">⏏</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══════════════════════════════════════════════ -->
+<div class="screen active" id="sc-home">
+  <div style="margin:1.2rem 0 1.4rem">
+    <div class="eyebrow">Tableau de bord</div>
+    <h1 id="home-greeting">Bonne partie !</h1>
+    <p class="sub" id="home-sub">Chargement…</p>
+  </div>
+
+  <!-- Crédits -->
+  <div class="card mb2" id="home-credits-card">
+    <div class="flex items-center justify-between mb1">
+      <div>
+        <div class="eyebrow">Parties disponibles</div>
+        <div style="font-size:2rem;font-weight:900;letter-spacing:-.04em" id="home-credits-val">—</div>
+      </div>
+      <div style="font-size:2.5rem">🎮</div>
+    </div>
+    <div id="home-credits-actions"></div>
+  </div>
+
+  <button class="btn btn-primary btn-full mb2" style="padding:.8rem" id="btn-new-game" onclick="go('new-game')" disabled>
+    ＋ Nouvelle partie
+  </button>
+
+  <div class="card">
+    <div class="eyebrow mb1">Parties récentes</div>
+    <div id="home-history"></div>
+  </div>
+</div>
+
+<!-- ══ NEW GAME ══════════════════════════════════════════ -->
+<div class="screen" id="sc-new-game">
+  <div class="flex items-center gap-2" style="margin:1.1rem 0 1.4rem">
+    <button class="btn btn-ghost btn-sm" onclick="go('home')">←</button>
+    <h1>Nouvelle partie</h1>
+  </div>
+
+  <div class="card mb2">
+    <h2>Le jeu</h2>
+
+    <div class="field">
+      <label class="lbl">Nom du jeu</label>
+      <input type="text" id="inp-game" placeholder="ex: UNO, Scrabble, Yams…" maxlength="30"
+        list="games-suggestions"/>
+      <datalist id="games-suggestions">
+        <option value="UNO"><option value="Scrabble"><option value="Yams">
+        <option value="6 qui prend"><option value="Skyjo"><option value="Tarot">
+        <option value="Belote"><option value="Fléchettes 501"><option value="Skull King">
+        <option value="Golf"><option value="Mito"><option value="Dutch Blitz">
+      </datalist>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Qui gagne ?</label>
+      <div class="win-toggle">
+        <div class="win-opt active-high" id="opt-high" onclick="setWin('high')">
+          ↑ Plus grand score<br><span style="font-size:.7rem;opacity:.8">Scrabble, Yams, Skull King…</span>
+        </div>
+        <div class="win-opt" id="opt-low" onclick="setWin('low')">
+          ↓ Plus petit score<br><span style="font-size:.7rem;opacity:.8">UNO, Skyjo, 6 qui prend…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb2">
+    <h2>Joueurs <span class="badge b-muted" id="player-count">0/8</span></h2>
+    <div class="chips" id="player-chips"></div>
+    <div class="add-row">
+      <input type="text" id="inp-player" placeholder="Pseudo du joueur" maxlength="20"
+        onkeydown="if(event.key==='Enter')addPlayer()" list="known-list"/>
+      <datalist id="known-list"></datalist>
+      <button class="btn btn-ghost" onclick="addPlayer()">Ajouter</button>
+    </div>
+  </div>
+
+  <button class="btn btn-primary btn-full" style="padding:.8rem" onclick="startGame()">
+    Commencer la partie →
+  </button>
+</div>
+
+<!-- ══ GAME ══════════════════════════════════════════════ -->
+<div class="screen" id="sc-game">
+  <div class="flex items-center justify-between" style="margin:1rem 0 1.2rem">
+    <div>
+      <h1 id="g-name" style="font-size:1.2rem"></h1>
+      <div id="g-badges" style="margin-top:.25rem"></div>
+    </div>
+    <button class="btn btn-danger btn-sm" onclick="askEndGame()">Terminer</button>
+  </div>
+
+  <div class="card mb2">
+    <div class="tbl-wrap">
+      <table class="st">
+        <thead><tr id="st-head"></tr></thead>
+        <tbody id="st-body"></tbody>
+        <tfoot><tr id="st-foot"></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div class="flex gap-2">
+    <button class="btn btn-primary" onclick="addRound()">＋ Manche</button>
+    <button class="btn btn-ghost" onclick="go('ranking')">🏆 Classement</button>
+  </div>
+</div>
+
+<!-- ══ RANKING ════════════════════════════════════════════ -->
+<div class="screen" id="sc-ranking">
+  <div class="flex items-center gap-2" style="margin:1.1rem 0 1.3rem">
+    <button class="btn btn-ghost btn-sm" onclick="go('game')">←</button>
+    <h1>Classement</h1>
+  </div>
+  <div class="card mb2" id="ranking-list"></div>
+  <button class="btn btn-ghost btn-full" onclick="go('game')">← Retour au tableau</button>
+</div>
+
+<!-- ══ END ════════════════════════════════════════════════ -->
+<div class="screen" id="sc-end">
+  <div style="text-align:center;padding:2.5rem 0 1.5rem">
+    <div style="font-size:3.2rem;margin-bottom:.5rem">🏆</div>
+    <h1 id="end-winner" style="font-size:1.6rem;margin-bottom:.3rem"></h1>
+    <p class="sub" id="end-score" style="font-size:.95rem"></p>
+  </div>
+  <div class="card mb2">
+    <div class="eyebrow mb1">Résultats finaux</div>
+    <div id="end-ranking"></div>
+  </div>
+  <button class="btn btn-primary btn-full mb1" onclick="go('home')">← Accueil</button>
+  <button class="btn btn-ghost btn-full" onclick="go('profile')">Voir mes stats</button>
+</div>
+
+<!-- ══ PROFILE ════════════════════════════════════════════ -->
+<div class="screen" id="sc-profile">
+  <div class="flex items-center gap-2" style="margin:1.1rem 0 1.3rem">
+    <button class="btn btn-ghost btn-sm" onclick="go('home')">←</button>
+    <h1>Mon profil</h1>
+  </div>
+
+  <div class="card mb2">
+    <div class="flex items-center gap-3" style="margin-bottom:1rem">
+      <div class="big-av c0" id="prof-av">?</div>
+      <div>
+        <div style="font-weight:700;font-size:1rem" id="prof-name">—</div>
+        <div class="text-muted" id="prof-email"></div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="st-parties">0</div><div class="stat-lbl">Parties</div></div>
+      <div class="stat-box"><div class="stat-val" id="st-wins">0</div><div class="stat-lbl">Victoires</div></div>
+      <div class="stat-box"><div class="stat-val" id="st-wr">0%</div><div class="stat-lbl">Win rate</div></div>
+    </div>
+    <div style="margin-top:.75rem">
+      <div class="eyebrow mb1">Crédits restants</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:1.3rem;font-weight:800" id="prof-credits">—</span>
+        <a href="index.html#pricing" class="btn btn-ghost btn-sm">Recharger</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb2" id="prof-by-game"></div>
+
+  <div class="card">
+    <div class="eyebrow mb1">Historique</div>
+    <div id="prof-history"></div>
+  </div>
+</div>
+
+<!-- ══ MODAL ════════════════════════════════════════════ -->
+<div id="modal-overlay">
+  <div id="modal-box">
+    <h2 id="modal-title">Confirmer</h2>
+    <p id="modal-msg"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" id="modal-cancel" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-danger" id="modal-ok">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading"><div class="spinner"></div></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ══ FIREBASE ══════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+  getDatabase, ref, get, set, update, push
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDziA3tqOrCUdQ7Zj2NFGZYLXv4dY603dQ",
+  authDomain: "playitizy.firebaseapp.com",
+  projectId: "playitizy",
+  storageBucket: "playitizy.firebasestorage.app",
+  messagingSenderId: "507064419888",
+  appId: "1:507064419888:web:390faff674fb217f944ff5"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getDatabase(fbApp);
+
+// ── Auth guard ────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = 'index.html';
+    return;
+  }
+  window._uid = user.uid;
+  window._userEmail = user.email;
+  window._userDisplay = user.displayName || user.email.split('@')[0];
+
+  // Charger profil
+  const snap = await get(ref(db, `users/${user.uid}`));
+  if (snap.exists()) {
+    window._profile = snap.val();
+  } else {
+    // Créer profil si absent (connexion Google directe)
+    const profile = {
+      email: user.email,
+      displayName: window._userDisplay,
+      credits: 1,
+      totalPlayed: 0,
+      totalPurchased: 1,
+      freeUsed: false,
+      isAdmin: false,
+      createdAt: Date.now(),
+    };
+    await set(ref(db, `users/${user.uid}`), profile);
+    window._profile = profile;
+  }
+
+  document.getElementById('loading').classList.remove('show');
+  updateNavCredits();
+  renderHome();
+});
+
+// ── Déconnexion ───────────────────────────────────────
+window.signOutUser = async () => {
+  await signOut(auth);
+  window.location.href = 'index.html';
+};
+
+// ── Consommer un crédit ───────────────────────────────
+window.consumeCredit = async () => {
+  const p = window._profile;
+  if (p.credits <= 0) return false;
+  const updates = {
+    credits:     p.credits - 1,
+    totalPlayed: (p.totalPlayed || 0) + 1,
+    freeUsed:    true,
+  };
+  await update(ref(db, `users/${window._uid}`), updates);
+  window._profile = { ...p, ...updates };
+  updateNavCredits();
+  return true;
+};
+
+// ── Sauvegarder une partie terminée ──────────────────
+window.saveGameToFirebase = async (record) => {
+  try {
+    await push(ref(db, `users/${window._uid}/history`), record);
+  } catch(e) { console.warn('Firebase save error', e); }
+};
+
+// ── Charger l'historique Firebase ────────────────────
+window.loadFirebaseHistory = async () => {
+  try {
+    const snap = await get(ref(db, `users/${window._uid}/history`));
+    if (!snap.exists()) return [];
+    const raw = snap.val();
+    return Object.values(raw).sort((a,b) => b.date - a.date);
+  } catch(e) { return []; }
+};
+
+window._firebaseReady = true;
+</script>
+
+<script>
+/* ────────────────────────────────────────────────────────
+   CONSTANTS
+──────────────────────────────────────────────────────── */
+const COLORS = ['c0','c1','c2','c3','c4','c5','c6','c7'];
+const STRIPE = {
+  one:   'https://buy.stripe.com/eVq9ALgNifma2Jf549bQY04',
+  pack10:'https://buy.stripe.com/bJefZ9aoUei683z9kpbQY05',
+  pack50:'https://buy.stripe.com/00weV59kQ8XM1FbaotbQY06',
+};
+
+/* ────────────────────────────────────────────────────────
+   STATE
+──────────────────────────────────────────────────────── */
+let S = {
+  game: { name:'', win:'high' },
+  players: [],
+  rounds: [],
+  startedAt: null,
+  gameId: null,
+  isPremium: false,  // true si la partie a été débitée
+};
+
+/* ────────────────────────────────────────────────────────
+   LOCAL STORAGE (cache joueurs + partie en cours)
+──────────────────────────────────────────────────────── */
+const ls = {
+  get: (k,d) => { try{return JSON.parse(localStorage.getItem(k))??d}catch{return d} },
+  set: (k,v) => localStorage.setItem(k,JSON.stringify(v)),
+};
+const getKnown   = ()  => ls.get('ptz_known',[]);
+const addKnown   = (n) => { const a=getKnown(); if(!a.includes(n)){a.push(n);ls.set('ptz_known',a)} };
+const saveCur    = ()  => ls.set('ptz_cur', S);
+const clearCur   = ()  => ls.set('ptz_cur', null);
+
+/* ────────────────────────────────────────────────────────
+   NAV
+──────────────────────────────────────────────────────── */
+function updateNavCredits() {
+  const c = window._profile?.credits ?? '—';
+  document.getElementById('nav-credits').textContent = `🎮 ${c}`;
+}
+
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('sc-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  ({
+    'home':    renderHome,
+    'new-game':renderNewGame,
+    'game':    renderGame,
+    'ranking': renderRanking,
+    'profile': renderProfile,
+  })[id]?.();
+}
+
+/* ────────────────────────────────────────────────────────
+   HOME
+──────────────────────────────────────────────────────── */
+async function renderHome() {
+  if (!window._profile) return;
+  const p = window._profile;
+  const name = window._userDisplay || 'joueur';
+  document.getElementById('home-greeting').textContent =
+    `Salut ${name} 👋`;
+  document.getElementById('home-sub').textContent =
+    `${p.credits} partie${p.credits>1?'s':''} disponible${p.credits>1?'s':''}`;
+
+  // Crédits
+  document.getElementById('home-credits-val').textContent = p.credits;
+  const actEl = document.getElementById('home-credits-actions');
+  if (p.credits === 0) {
+    actEl.innerHTML = `
+      <p class="text-muted mb1">Plus de parties disponibles. Recharge pour continuer !</p>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <a href="${STRIPE.one}" target="_blank" class="btn btn-ghost btn-sm">1 partie — 1€</a>
+        <a href="${STRIPE.pack10}" target="_blank" class="btn btn-primary btn-sm">10 parties — 5€</a>
+        <a href="${STRIPE.pack50}" target="_blank" class="btn btn-ghost btn-sm">50 parties — 15€</a>
+      </div>`;
+    document.getElementById('btn-new-game').disabled = true;
+  } else {
+    actEl.innerHTML = `<p class="text-muted">Clique sur "Nouvelle partie" pour commencer.</p>`;
+    document.getElementById('btn-new-game').disabled = false;
+  }
+
+  // Historique
+  const hist = await loadFirebaseHistory();
+  const el = document.getElementById('home-history');
+  if (!hist.length) {
+    el.innerHTML = '<p class="text-muted">Aucune partie encore. Lance-toi !</p>';
+    return;
+  }
+  el.innerHTML = hist.slice(0,5).map(g => {
+    const iWon = g.ranking?.[0]?.name === window._userDisplay;
+    const date = new Date(g.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    return `<div class="hist-item ${iWon?'win':'loss'}">
+      <div class="hist-meta">
+        <span style="font-weight:700">${g.gameName}</span>
+        <span class="text-muted">${date}</span>
+      </div>
+      <div class="text-muted">${g.players?.join(' · ')}</div>
+      <div style="margin-top:.3rem;display:flex;gap:.4rem;flex-wrap:wrap">
+        <span class="badge b-amber">🏆 ${g.ranking?.[0]?.name}</span>
+        <span class="badge ${iWon?'b-green':'b-red'}">${iWon?'Victoire':'Défaite'}</span>
+        <span class="badge b-muted">${g.rounds} manches</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ────────────────────────────────────────────────────────
+   NEW GAME
+──────────────────────────────────────────────────────── */
+function renderNewGame() {
+  document.getElementById('inp-game').value = S.game?.name || '';
+  setWin(S.game?.win || 'high');
+  renderChips();
+  const dl = document.getElementById('known-list');
+  dl.innerHTML = getKnown().map(p=>`<option value="${p}">`).join('');
+}
+
+function setWin(val) {
+  S.game.win = val;
+  document.getElementById('opt-high').className = 'win-opt' + (val==='high'?' active-high':'');
+  document.getElementById('opt-low').className  = 'win-opt' + (val==='low'?' active-low':'');
+}
+
+function addPlayer() {
+  const inp = document.getElementById('inp-player');
+  const name = inp.value.trim();
+  if (!name) return;
+  if (S.players.find(p=>p.name===name)) return toast('Joueur déjà ajouté');
+  if (S.players.length>=8) return toast('Maximum 8 joueurs');
+  S.players.push({name, color:COLORS[S.players.length%COLORS.length]});
+  addKnown(name);
+  inp.value='';
+  renderChips();
+  inp.focus();
+}
+
+function removePlayer(i) {
+  S.players.splice(i,1);
+  S.players.forEach((p,j)=>p.color=COLORS[j%COLORS.length]);
+  renderChips();
+}
+
+function renderChips() {
+  document.getElementById('player-count').textContent = `${S.players.length}/8`;
+  const el = document.getElementById('player-chips');
+  if (!S.players.length) {
+    el.innerHTML='<span class="text-muted">Aucun joueur ajouté</span>';return;
+  }
+  el.innerHTML = S.players.map((p,i)=>
+    `<div class="chip">
+      <div class="av ${p.color}">${p.name[0].toUpperCase()}</div>
+      ${p.name}
+      <span class="chip-x" onclick="removePlayer(${i})">✕</span>
+    </div>`
+  ).join('');
+}
+
+async function startGame() {
+  const gname = document.getElementById('inp-game').value.trim();
+  if (!gname) return toast('Donne un nom au jeu');
+  if (S.players.length<2) return toast('Au moins 2 joueurs');
+
+  // Consommer un crédit
+  const ok = await window.consumeCredit();
+  if (!ok) {
+    toast('Plus de crédits disponibles !');
+    go('home');
+    return;
+  }
+
+  S.game.name  = gname;
+  S.rounds     = [];
+  S.startedAt  = Date.now();
+  S.gameId     = 'g_'+S.startedAt;
+  S.isPremium  = true;
+  saveCur();
+  go('game');
+}
+
+/* ────────────────────────────────────────────────────────
+   GAME
+──────────────────────────────────────────────────────── */
+function renderGame() {
+  document.getElementById('g-name').textContent = S.game.name;
+  document.getElementById('g-badges').innerHTML =
+    `<span class="badge ${S.game.win==='high'?'b-green':'b-red'}">
+      ${S.game.win==='high'?'↑ plus grand gagne':'↓ plus petit gagne'}
+    </span>
+    <span class="badge b-muted" style="margin-left:.3rem">${S.rounds.length} manche${S.rounds.length>1?'s':''}</span>`;
+  renderTable();
+}
+
+function renderTable() {
+  const players = S.players;
+  const totals  = computeTotals();
+  const ranked  = rank(totals);
+  const leadIdx = ranked[0]?.idx;
+
+  // HEAD
+  document.getElementById('st-head').innerHTML =
+    `<th class="left">Manche</th>` +
+    players.map((p,i)=>
+      `<th>
+        <div class="av ${p.color}" style="margin:0 auto 3px;width:22px;height:22px;font-size:.6rem">${p.name[0].toUpperCase()}</div>
+        ${p.name}
+        ${i===leadIdx?'<div style="font-size:.58rem;color:var(--ok);margin-top:1px">leader</div>':''}
+      </th>`
+    ).join('');
+
+  // BODY
+  const body = document.getElementById('st-body');
+  if (!S.rounds.length) {
+    body.innerHTML=`<tr><td colspan="${players.length+1}" class="text-muted" style="padding:1rem;text-align:center">Clique sur "＋ Manche" pour démarrer</td></tr>`;
+  } else {
+    body.innerHTML = S.rounds.map((round,ri)=>
+      `<tr>
+        <td class="left">
+          M${ri+1}
+          <button class="del-btn" onclick="deleteRound(${ri})">✕</button>
+        </td>
+        ${round.map((v,pi)=>
+          `<td><input class="sc-inp ${v<0?'neg':v>0?'pos':''}" type="number" value="${v??''}"
+            onchange="setScore(${ri},${pi},this.value)"
+            oninput="this.className='sc-inp'+(+this.value<0?' neg':+this.value>0?' pos':'')"
+          /></td>`
+        ).join('')}
+      </tr>`
+    ).join('');
+  }
+
+  // FOOT
+  document.getElementById('st-foot').innerHTML =
+    `<td class="left">Total</td>` +
+    totals.map((t,i)=>
+      `<td class="${i===leadIdx?'win-cell':'lose-cell'}">${t.total}</td>`
+    ).join('');
+}
+
+function addRound() {
+  S.rounds.push(S.players.map(()=>0));
+  saveCur();
+  renderTable();
+  setTimeout(()=>{
+    const inputs=document.getElementById('st-body').querySelectorAll('.sc-inp');
+    const first = inputs[inputs.length-S.players.length];
+    first?.scrollIntoView({behavior:'smooth',block:'nearest'});
+    first?.focus();first?.select();
+  },100);
+}
+
+function deleteRound(ri) {
+  S.rounds.splice(ri,1);
+  saveCur();
+  renderTable();
+}
+
+function setScore(ri,pi,val) {
+  S.rounds[ri][pi]=parseFloat(val)||0;
+  saveCur();
+  // Recalcul footer + leader badge
+  const totals=computeTotals();
+  const ranked=rank(totals);
+  const leadIdx=ranked[0]?.idx;
+  document.getElementById('st-foot').innerHTML=
+    `<td class="left">Total</td>`+
+    totals.map((t,i)=>`<td class="${i===leadIdx?'win-cell':'lose-cell'}">${t.total}</td>`).join('');
+  // Update leader badge dans header
+  document.querySelectorAll('#st-head th:not(.left)').forEach((th,i)=>{
+    let lbl=th.querySelector('.leader-lbl');
+    if(i===leadIdx){
+      if(!lbl){lbl=document.createElement('div');lbl.className='leader-lbl';lbl.style.cssText='font-size:.58rem;color:var(--ok);margin-top:1px';th.appendChild(lbl)}
+      lbl.textContent='leader';
+    } else {
+      lbl?.remove();
+    }
+  });
+}
+
+/* ────────────────────────────────────────────────────────
+   CALCUL
+──────────────────────────────────────────────────────── */
+function computeTotals() {
+  return S.players.map((p,pi)=>({
+    idx:pi, name:p.name, color:p.color,
+    total: S.rounds.reduce((s,r)=>s+(parseFloat(r[pi])||0),0),
+  }));
+}
+function rank(totals) {
+  return [...totals].sort((a,b)=>S.game.win==='high'?b.total-a.total:a.total-b.total);
+}
+
+/* ────────────────────────────────────────────────────────
+   RANKING
+──────────────────────────────────────────────────────── */
+function renderRanking() {
+  const sorted=rank(computeTotals());
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('ranking-list').innerHTML=sorted.map((p,i)=>{
+    const scores=S.rounds.map(r=>parseFloat(r[p.idx])||0);
+    const best=scores.length?(S.game.win==='high'?Math.max(...scores):Math.min(...scores)):'—';
+    const ecart=i>0?Math.abs(sorted[0].total-p.total):0;
+    return `<div class="rank-row">
+      <div class="rank-pos">${medals[i]||(i+1)}</div>
+      <div class="av ${S.players[p.idx].color}" style="width:30px;height:30px;font-size:.75rem">${p.name[0].toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="rank-name">${p.name}</div>
+        <div class="rank-sub">
+          Meilleure manche : ${best} pts
+          ${i>0?`· à ${ecart} pts du leader`:''}
+        </div>
+      </div>
+      <div class="rank-score">${p.total} pts</div>
+    </div>`;
+  }).join('');
+}
+
+/* ────────────────────────────────────────────────────────
+   FIN DE PARTIE
+──────────────────────────────────────────────────────── */
+function askEndGame() {
+  openModal('Terminer la partie ?','Les résultats seront sauvegardés.', endGame);
+}
+
+async function endGame() {
+  closeModal();
+  const totals=computeTotals();
+  const sorted=rank(totals);
+  const winner=sorted[0];
+
+  const record={
+    id:       S.gameId,
+    gameName: S.game.name,
+    gameWin:  S.game.win,
+    date:     S.startedAt,
+    players:  S.players.map(p=>p.name),
+    rounds:   S.rounds.length,
+    ranking:  sorted.map(p=>({name:p.name,total:p.total})),
+  };
+
+  await window.saveGameToFirebase(record);
+
+  // Écran fin
+  document.getElementById('end-winner').textContent=`${winner.name} gagne !`;
+  document.getElementById('end-score').textContent=`${winner.total} pts · ${S.rounds.length} manche${S.rounds.length>1?'s':''}`;
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('end-ranking').innerHTML=sorted.map((p,i)=>
+    `<div class="rank-row">
+      <div class="rank-pos">${medals[i]||(i+1)}</div>
+      <div class="av ${S.players[p.idx].color}" style="width:30px;height:30px;font-size:.75rem">${p.name[0].toUpperCase()}</div>
+      <div class="rank-name" style="flex:1">${p.name}</div>
+      <div class="rank-score">${p.total} pts</div>
+    </div>`
+  ).join('');
+
+  clearCur();
+  S={game:{name:'',win:'high'},players:[],rounds:[],startedAt:null,gameId:null,isPremium:false};
+  go('end');
+}
+
+/* ────────────────────────────────────────────────────────
+   PROFILE
+──────────────────────────────────────────────────────── */
+async function renderProfile() {
+  const p=window._profile;
+  const name=window._userDisplay||'—';
+  document.getElementById('prof-av').textContent=name[0].toUpperCase();
+  document.getElementById('prof-name').textContent=name;
+  document.getElementById('prof-email').textContent=window._userEmail||'';
+  document.getElementById('prof-credits').textContent=`${p.credits} partie${p.credits>1?'s':''} restante${p.credits>1?'s':''}`;
+
+  const hist=await loadFirebaseHistory();
+  const wins=hist.filter(g=>g.ranking?.[0]?.name===name).length;
+  const wr=hist.length?Math.round(wins/hist.length*100):0;
+  document.getElementById('st-parties').textContent=hist.length;
+  document.getElementById('st-wins').textContent=wins;
+  document.getElementById('st-wr').textContent=wr+'%';
+
+  // Par jeu
+  const byGame={};
+  hist.forEach(g=>{
+    if(!byGame[g.gameName]) byGame[g.gameName]={total:0,wins:0};
+    byGame[g.gameName].total++;
+    if(g.ranking?.[0]?.name===name) byGame[g.gameName].wins++;
+  });
+  const bgEl=document.getElementById('prof-by-game');
+  if(Object.keys(byGame).length){
+    bgEl.innerHTML=`<div class="eyebrow mb1">Par jeu</div>`+
+      Object.entries(byGame).map(([n,d])=>
+        `<div class="flex items-center justify-between" style="padding:.4rem 0;border-bottom:1px solid var(--border)">
+          <span style="font-weight:500">${n}</span>
+          <span class="badge b-muted">${d.wins}/${d.total} victoire${d.wins>1?'s':''}</span>
+        </div>`
+      ).join('');
+    bgEl.classList.remove('hidden');
+  } else { bgEl.innerHTML=''; }
+
+  // Historique
+  const hEl=document.getElementById('prof-history');
+  if(!hist.length){hEl.innerHTML='<p class="text-muted">Aucune partie.</p>';return;}
+  hEl.innerHTML=hist.map(g=>{
+    const iWon=g.ranking?.[0]?.name===name;
+    const myRank=g.ranking?.findIndex(r=>r.name===name)+1;
+    const myPts=g.ranking?.find(r=>r.name===name)?.total??'—';
+    const date=new Date(g.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+    return `<div class="hist-item ${iWon?'win':'loss'}">
+      <div class="hist-meta">
+        <span style="font-weight:700">${g.gameName}</span>
+        <span class="badge ${iWon?'b-green':'b-red'}">${iWon?'🏆 Victoire':`${myRank}e place`}</span>
+      </div>
+      <div class="text-muted">${date} · avec ${g.players?.filter(n2=>n2!==name).join(', ')}</div>
+      <div style="margin-top:.28rem;font-size:.82rem">
+        Score : <strong>${myPts} pts</strong> · ${g.rounds} manche${g.rounds>1?'s':''}
+        · Vainqueur : ${g.ranking?.[0]?.name}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ────────────────────────────────────────────────────────
+   MODAL
+──────────────────────────────────────────────────────── */
+let _okCb=null;
+function openModal(title,msg,cb){
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-msg').textContent=msg;
+  _okCb=cb;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+document.getElementById('modal-ok').onclick=()=>_okCb?.();
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+/* ────────────────────────────────────────────────────────
+   TOAST
+──────────────────────────────────────────────────────── */
+let _tt;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600);
+}
+
+/* ────────────────────────────────────────────────────────
+   INIT — reprendre partie en cours
+──────────────────────────────────────────────────────── */
+document.getElementById('loading').classList.add('show');
+
+window.addEventListener('load', () => {
+  const cur = ls.get('ptz_cur', null);
+  if (cur?.gameId) {
+    S = cur;
+    // On attend que Firebase soit prêt
+    const wait = setInterval(()=>{
+      if(window._firebaseReady){
+        clearInterval(wait);
+        openModal(
+          'Partie en cours',
+          `Reprendre "${S.game?.name}" ?`,
+          ()=>{ closeModal(); go('game'); }
+        );
+        document.getElementById('modal-cancel').onclick = ()=>{
+          clearCur();
+          S={game:{name:'',win:'high'},players:[],rounds:[],startedAt:null,gameId:null,isPremium:false};
+          closeModal();
+          document.getElementById('modal-cancel').onclick=closeModal;
+        };
+      }
+    },200);
+  }
+});
+</script>
+</body>
+</html>
