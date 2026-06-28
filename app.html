@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playitizi — App</title>
+<title>Playitizy — App</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>">
 <style>
 :root {
@@ -255,7 +255,7 @@ table.st tfoot td.lose-cell{color:var(--muted)}
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Play<em>itizi</em></div>
+  <div class="logo">Play<em>itizy</em></div>
   <div class="nav-right">
     <div class="credits-pill" id="nav-credits" title="Parties restantes">🎮 —</div>
     <button class="btn btn-ghost btn-sm" onclick="go('home')" title="Accueil">🏠</button>
@@ -464,6 +464,7 @@ import {
 const firebaseConfig = {
   apiKey: "AIzaSyDziA3tqOrCUdQ7Zj2NFGZYLXv4dY603dQ",
   authDomain: "playitizy.firebaseapp.com",
+  databaseURL: "https://playitizy-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "playitizy",
   storageBucket: "playitizy.firebasestorage.app",
   messagingSenderId: "507064419888",
@@ -474,37 +475,54 @@ const fbApp = initializeApp(firebaseConfig);
 const auth  = getAuth(fbApp);
 const db    = getDatabase(fbApp);
 
+function hideLoading() {
+  document.getElementById('loading').classList.remove('show');
+}
+
 // ── Auth guard ────────────────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    hideLoading();
     window.location.href = 'index.html';
     return;
   }
-  window._uid = user.uid;
-  window._userEmail = user.email;
+  window._uid         = user.uid;
+  window._userEmail   = user.email;
   window._userDisplay = user.displayName || user.email.split('@')[0];
 
-  // Charger profil
-  const snap = await get(ref(db, `users/${user.uid}`));
-  if (snap.exists()) {
-    window._profile = snap.val();
-  } else {
-    // Créer profil si absent (connexion Google directe)
-    const profile = {
-      email: user.email,
+  try {
+    const snap = await get(ref(db, `users/${user.uid}`));
+    if (snap.exists()) {
+      window._profile = snap.val();
+    } else {
+      const profile = {
+        email:          user.email,
+        displayName:    window._userDisplay,
+        credits:        1,
+        totalPlayed:    0,
+        totalPurchased: 1,
+        freeUsed:       false,
+        isAdmin:        false,
+        createdAt:      Date.now(),
+      };
+      await set(ref(db, `users/${user.uid}`), profile);
+      window._profile = profile;
+    }
+  } catch(e) {
+    console.error('Firebase DB error:', e);
+    // Profil de secours pour ne pas bloquer l'UI
+    window._profile = {
+      email:       user.email,
       displayName: window._userDisplay,
-      credits: 1,
+      credits:     1,
       totalPlayed: 0,
-      totalPurchased: 1,
-      freeUsed: false,
-      isAdmin: false,
-      createdAt: Date.now(),
+      freeUsed:    false,
+      isAdmin:     false,
+      _dbError:    true,
     };
-    await set(ref(db, `users/${user.uid}`), profile);
-    window._profile = profile;
   }
 
-  document.getElementById('loading').classList.remove('show');
+  hideLoading();
   updateNavCredits();
   renderHome();
 });
@@ -999,7 +1017,7 @@ function toast(msg){
 /* ────────────────────────────────────────────────────────
    INIT — reprendre partie en cours
 ──────────────────────────────────────────────────────── */
-document.getElementById('loading').classList.add('show');
+document.getElementById('loading').classList.add('show'); // Firebase onAuthStateChanged le cache
 
 window.addEventListener('load', () => {
   const cur = ls.get('ptz_cur', null);
